@@ -22,3 +22,9 @@ if(WIN32 AND BUILD_SHARED_LIBS)
 endif()
 
 generate_export_header(ape)
+
+include(CTest)
+
+add_executable(mac-399-id3v2 tests/mac-399-id3v2.c)
+target_link_libraries(mac-399-id3v2 ape)
+add_test(NAME mac-399-id3v2 COMMAND mac-399-id3v2 WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests)
