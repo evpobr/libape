@@ -1,0 +1,8 @@
+dist: trusty
+sudo: false
+language: c
+os:
+  - linux
+  - macosx
+script:
+  - mkdir cmake-build && (cd cmake-build && cmake .. -DCMAKE_BUILD_TYPE=Debug && make VERBOSE=1 && ctest -V)
