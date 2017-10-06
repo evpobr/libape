@@ -51,6 +51,19 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
+# Visual Studio
+.vs/
+[Dd]ebug/
+[Dd]ebugPublic/
+[Rr]elease/
+[Rr]eleases/
+x64/
+x86/
+bld/
+[Bb]in/
+[Oo]bj/
+[Ll]og/
+
 CMakeCache.txt
 CMakeFiles
 CMakeScripts
@@ -60,3 +73,6 @@ cmake_install.cmake
 install_manifest.txt
 compile_commands.json
 CTestTestfile.cmake
+CMakeSettings.json
+CMakeBuild/
+cmake-build/
