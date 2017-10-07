@@ -27,11 +27,6 @@ enum ape_format_flags_t
     APE_FORMAT_FLAG_CREATE_WAV_HEADER   = 32
 };
 
-APE_EXPORT const char *  ape_get_version_string(void);
-APE_EXPORT int ape_get_version_major(void);
-APE_EXPORT int ape_get_version_minor(void);
-APE_EXPORT int ape_get_version_patch(void);
-
 typedef struct ape_stream_s ape_stream;
 
 typedef int (*ape_stream_read)(ape_stream *stream, void *ptr, int count);
@@ -55,6 +50,10 @@ typedef struct ape_file_s ape_file;
 extern "C" {
 #endif
 
+APE_EXPORT const char *  ape_get_version_string(void);
+APE_EXPORT int ape_get_version_major(void);
+APE_EXPORT int ape_get_version_minor(void);
+APE_EXPORT int ape_get_version_patch(void);
 APE_EXPORT int ape_file_open(const char *filename, int is_readonly, ape_file **ctx);
 APE_EXPORT int ape_file_open_stream(ape_stream *stream, ape_file **ctx);
 APE_EXPORT int ape_file_free(ape_file *ctx);
