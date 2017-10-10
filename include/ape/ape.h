@@ -66,23 +66,103 @@
  */
 #define APE_COMPRESSION_LEVEL_INSANE        5000
 
+/**
+ *
+ */
 typedef struct ape_stream_s ape_stream;
 
+/**
+ * @brief Stream read function prototype.
+ * @param stream in Pointer to ape_stream that specifies input stream.
+ * @param buffer in Pointer to a block of memory of @c size bytes.
+ * @param size in Size of buffer in bytes.
+ * @see ape_stream
+ * @see ape_file_open_stream()
+ * @return Size of bytes read.
+ */
 typedef int (*ape_stream_read)(ape_stream *stream, void *buffer, int size);
+/**
+ * @brief Stream write function prototype.
+ * @param stream in Pointer to ape_stream that specifies output stream.
+ * @param buffer out Pointer to a block of memory of @c size bytes.
+ * @param size in Size of buffer in bytes.
+ * @see ape_stream
+ * @see ape_file_open_stream()
+ * @return Size of bytes written.
+ */
 typedef int (*ape_stream_write)(ape_stream *stream, const void *buffer, int size);
+/**
+ * @brief Stream tell function prototype.
+ * @param stream in Pointer to ape_stream that specifies stream.
+ * @see ape_stream
+ * @see ape_file_open_stream()
+ * @return Current position in stream.
+ */
 typedef long (*ape_stream_tell)(ape_stream *stream);
+/**
+ * @brief Stream seek function prototype.
+ * @param stream in Pointer to ape_stream that specifies stream.
+ * @param offset in Bytes count to seek.
+ * @param origin in Seek method: @c 0 - from beginning, @c 1 - from current position,
+ * @c 2 - from end (@c offset is negative in this case).
+ * @see ape_stream
+ * @see ape_file_open_stream()
+ * @return Bytes count skipped.
+ */
 typedef long (*ape_stream_seek)(ape_stream *stream, long offset, int origin);
 
+/**
+ * @brief Describes APE stream.
+ *
+ * This struct is used in ape_file_open stream(). Define your own functions to read,
+ * write, seek and tell stream using prototypes above, and assign to corresponding
+ * fields of ape_stream_s. If you opened stream in read only mode, set @c is_readonly
+ * to @c 1. @c user_data holds some associated value, e.g. @c FILE pointer, @c HFILE etc.
+ *
+ * @see ape_file_open_stream()
+ * @see ape_stream_read
+ * @see ape_stream_write
+ * @see ape_stream_seek
+ * @see ape_stream_tell
+ */
 struct ape_stream_s
 {
+    /**
+     * @brief Pointer to read function.
+     * @see ape_stream_read()
+     */
     ape_stream_read read;
+    /**
+     * @brief Pointer to write function.
+     * @see ape_stream_write()
+     */
     ape_stream_write write;
+    /**
+     * @brief Pointer to tell function.
+     * @see ape_stream_tell()
+     */
     ape_stream_tell tell;
+    /**
+     * @brief Pointer to seek function.
+     * @see ape_stream_seek()
+     */
     ape_stream_seek seek;
+    /**
+     * @brief Indicates that stream is read only, if set to @c 1.
+     */
     int is_readonly;
+    /**
+     * @brief User associated data.
+     */
     void *user_data;
 };
 
+/**
+ * @brief Describes APE context.
+ *
+ * Opaque type that describes APE object.
+ *
+ */
 typedef struct ape_file_s ape_file;
 
 #ifdef __cplusplus
@@ -160,7 +240,7 @@ APE_EXPORT int ape_file_open(const char *filename, int is_readonly, ape_file **c
  *
  * Use ape_file_free() function to close file and free associated memory.
  *
- * @param in stream Initialized ape_stream structure.
+ * @param stream in Initialized ape_stream structure.
  * @param ctx out APE context.
  * @see ape_file_open()
  * @see ape_file_free()
@@ -332,7 +412,7 @@ APE_EXPORT int ape_file_get_seek_table_elements(ape_file *ctx);
  * @brief Gets seek byte of APE file.
  *
  * @param ctx in APE context.
- * frame in Frame to return seek byte.
+ * @param frame in Frame to return seek byte.
  * @return If function succeded, it returns seek byte,
  * otherwise result is zero or negative value.
  * @see ape_file_get_seek_table_elements()
@@ -344,7 +424,7 @@ APE_EXPORT int ape_file_get_seek_byte(ape_file *ctx, int frame);
  * @brief Gets seek bit of APE file.
  *
  * @param ctx in APE context.
- * frame in Frame to return seek bit.
+ * @param frame in Frame to return seek bit.
  * @return If function succeded, it returns seek bit,
  * otherwise result is zero or negative value.
  * @deprecated This feature is obsoleted in format version 3.80,
@@ -358,7 +438,7 @@ APE_EXPORT char ape_file_get_seek_bit(ape_file *ctx, int frame);
  * @brief Gets blocks count in frame of APE file.
  *
  * @param ctx in APE context.
- * frame in Frame to return blocks count.
+ * @param frame in Frame to return blocks count.
  * @return If function succeded, it returns blocks count,
  * otherwise result is zero or negative value.
  */
