@@ -79,8 +79,57 @@ APE_EXPORT int ape_get_version_minor(void);
  * @see ape_get_version_minor()
  */
 APE_EXPORT int ape_get_version_patch(void);
+
+/**
+ * @brief Opens APE file from filename.
+ *
+ * ape_file_open() and ape_file_open_stream() functions are used to create APE context.
+ *
+ * If file is opened successfully, @c ctx parameter holds the APE context
+ * of file, otherwise it is set to @c NULL. You can pass @c ctx to other functions to retrive information
+ * about opened file.
+ *
+ * Use ape_file_free() function to close file and free associated memory.
+ *
+ * @param filename in Path to the file.
+ * @param is_readonly in Set to @c 1 to open file in read only mode.
+ * @param ctx out APE context.
+ * @see ape_file_open_stream()
+ * @see ape_file_free()
+ * @return If function succedded @c ctx is valid APE context and return code is zero. 
+ * If function fails, result is negative value and @c ctx is set to @c NULL. 
+ */
 APE_EXPORT int ape_file_open(const char *filename, int is_readonly, ape_file **ctx);
+
+/**
+* @brief Opens APE file from stream.
+*
+* ape_file_open() and ape_file_open_stream() functions are used to create APE context.
+*
+* If file is opened successfully, @c ctx parameter holds the APE context
+* of file, otherwise it is set to @c NULL. You can pass @c ctx to other functions to retrive information
+* about opened file.
+*
+* Use ape_file_free() function to close file and free associated memory.
+*
+* @param in stream Initialized ape_stream structure.
+* @param ctx out APE context.
+* @see ape_file_open()
+* @see ape_file_free()
+* @return If function succedded @c ctx is valid APE context and return code is zero.
+* If function fails, result is negative value and @c ctx is set to @c NULL.
+*/
 APE_EXPORT int ape_file_open_stream(ape_stream *stream, ape_file **ctx);
+
+/**
+ * @brief Closes APE file.
+ *
+ * @param ctx in APE context.
+ * @see ape_file_open()
+ * @see ape_file_open_stream()
+ * @return If function succedded return code is zero, otherwise result is negative value.
+ */
+
 APE_EXPORT int ape_file_free(ape_file *ctx);
 APE_EXPORT int ape_file_get_version(ape_file *ctx);
 APE_EXPORT int ape_file_get_compression_level(ape_file *ctx);
