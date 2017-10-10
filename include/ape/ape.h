@@ -8,14 +8,11 @@
 #define LIBAPE_VERSION_MINOR    1
 #define LIBAPE_VERSION_PATCH    0
 
-enum ape_compression_level_t
-{
-    APE_COMPRESSION_LEVEL_FAST          = 1000,
-    APE_COMPRESSION_LEVEL_NORMAL        = 2000,
-    APE_COMPRESSION_LEVEL_HIGH          = 3000,
-    APE_COMPRESSION_LEVEL_EXTRA_HIGH    = 4000,
-    APE_COMPRESSION_LEVEL_INSANE        = 5000
-};
+#define APE_COMPRESSION_LEVEL_FAST          1000
+#define APE_COMPRESSION_LEVEL_NORMAL        2000
+#define APE_COMPRESSION_LEVEL_HIGH          3000
+#define APE_COMPRESSION_LEVEL_EXTRA_HIGH    4000
+#define APE_COMPRESSION_LEVEL_INSANE        5000
 
 typedef struct ape_stream_s ape_stream;
 
