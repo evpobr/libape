@@ -76,3 +76,7 @@ CTestTestfile.cmake
 CMakeSettings.json
 CMakeBuild/
 cmake-build/
+
+# Doxygen
+
+/docs/
