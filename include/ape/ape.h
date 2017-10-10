@@ -44,8 +44,6 @@ APE_EXPORT int ape_get_version_patch(void);
 APE_EXPORT int ape_file_open(const char *filename, int is_readonly, ape_file **ctx);
 APE_EXPORT int ape_file_open_stream(ape_stream *stream, ape_file **ctx);
 APE_EXPORT int ape_file_free(ape_file *ctx);
-APE_EXPORT ape_file * ape_file_ref(ape_file *ctx);
-APE_EXPORT ape_file * ape_file_unref(ape_file *ctx);
 APE_EXPORT int ape_file_get_version(ape_file *ctx);
 APE_EXPORT int ape_file_get_compression_level(ape_file *ctx);
 APE_EXPORT int ape_file_get_total_frames(ape_file *ctx);

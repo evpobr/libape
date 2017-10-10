@@ -47,7 +47,6 @@ enum ape_format_flags_t
 
 struct ape_file_s
 {
-    int refcount;
     ape_stream *stream;
     bool owns_stream;
 
@@ -190,7 +189,6 @@ APE_EXPORT int ape_file_open(const char *filename, int is_readonly, ape_file **c
     c->stream = stream;
     c->owns_stream = true;
 
-    ape_file_ref(c);
     int ret = ape_file_analyze(c);
     if (ret < 0)
     {
@@ -218,7 +216,6 @@ APE_EXPORT int ape_file_open_stream(ape_stream *stream, ape_file **ctx)
 
     c->stream = stream;
 
-    ape_file_ref(c);
     *ctx = c;
 
     return 0;
@@ -241,31 +238,9 @@ APE_EXPORT int ape_file_free(ape_file *ctx)
                 if (ctx->wav_header_data)
                     free(ctx->wav_header_data);
             }
-
-        ape_file_unref(ctx);
     }
 
     return 0;
-}
-
-APE_EXPORT ape_file * ape_file_ref(ape_file *ctx)
-{
-    if (ctx)
-        ctx->refcount++;
-
-    return ctx;
-}
-
-APE_EXPORT ape_file * ape_file_unref(ape_file *ctx)
-{
-    if (ctx)
-    {
-        ctx->refcount--;
-        if (ctx->refcount <= 0)
-            free(ctx);        
-    }
-
-    return ctx;
 }
 
 
