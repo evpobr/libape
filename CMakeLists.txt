@@ -20,6 +20,9 @@ set_target_properties(ape PROPERTIES
 if(WIN32 AND BUILD_SHARED_LIBS)
     target_sources(ape PRIVATE src/ape.rc)
 endif()
+if(MSVC)
+	target_compile_definitions(ape PRIVATE _CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE)
+endif()
 
 generate_export_header(ape)
 
@@ -27,4 +30,7 @@ include(CTest)
 
 add_executable(mac-399-id3v2 tests/mac-399-id3v2.c)
 target_link_libraries(mac-399-id3v2 ape)
+if(MSVC)
+	target_compile_definitions(mac-399-id3v2 PRIVATE _CRT_SECURE_NO_WARNINGS;_CRT_NONSTDC_NO_DEPRECATE)
+endif()
 add_test(NAME mac-399-id3v2 COMMAND mac-399-id3v2 WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/tests)
