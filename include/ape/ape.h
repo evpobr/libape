@@ -7,15 +7,63 @@
 
 #include "ape_export.h"
 
+/**
+ * @brief Defines library version as string.
+ *
+ * String returned in "X.Y.Z" format, where X is major version number, Y is minor version number
+ * and Z is patch version number.
+ *
+ * @see ape_get_version_string()
+ */
 #define LIBAPE_VERSION_STRING   "0.1.0"
+/**
+ * @brief Defines library major version.
+ *
+ * @see ape_get_version_major()
+ */
 #define LIBAPE_VERSION_MAYOR    0
+/**
+ * @brief Defines library minor version.
+ *
+ * @see ape_get_version_minor()
+ */
 #define LIBAPE_VERSION_MINOR    1
+/**
+ * @brief Defines library patch version.
+ *
+ * @see ape_get_version_patch()
+ */
 #define LIBAPE_VERSION_PATCH    0
 
+/**
+ * @brief Defines fast compression level.
+ *
+ * @see ape_file_get_compression_level()
+ */
 #define APE_COMPRESSION_LEVEL_FAST          1000
+/**
+ * @brief Defines normal compression level.
+ *
+ * @see ape_file_get_compression_level()
+ */
 #define APE_COMPRESSION_LEVEL_NORMAL        2000
+/**
+ * @brief Defines high compression level.
+ *
+ * @see ape_file_get_compression_level()
+ */
 #define APE_COMPRESSION_LEVEL_HIGH          3000
+/**
+ * @brief Defines extra high compression level.
+ *
+ * @see ape_file_get_compression_level()
+ */
 #define APE_COMPRESSION_LEVEL_EXTRA_HIGH    4000
+/**
+ * @brief Defines insane compression level.
+ *
+ * @see ape_file_get_compression_level()
+ */
 #define APE_COMPRESSION_LEVEL_INSANE        5000
 
 typedef struct ape_stream_s ape_stream;
