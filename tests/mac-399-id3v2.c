@@ -52,18 +52,6 @@ int main(void)
             ret = -1;
         }
 
-        value = ape_file_get_format_flags(ctx);
-        printf("ape_info_test: format flags = %d - ", value);
-        if (value == 32)
-        {
-            printf("ok.\n");
-        }
-        else
-        {
-            printf("fail.\n");
-            ret = -1;
-        }
-
         value = ape_file_get_total_frames(ctx);
         printf("ape_info_test: total frames = %d - ", value);
         if (value == 3)

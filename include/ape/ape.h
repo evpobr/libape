@@ -17,16 +17,6 @@ enum ape_compression_level_t
     APE_COMPRESSION_LEVEL_INSANE        = 5000
 };
 
-enum ape_format_flags_t
-{
-    APE_FORMAT_FLAG_8_BIT               = 1,
-    APE_FORMAT_FLAG_CRC                 = 2,
-    APE_FORMAT_FLAG_HAS_PEAK_LEVEL      = 4,
-    APE_FORMAT_FLAG_24_BIT              = 8,
-    APE_FORMAT_FLAG_HAS_SEEK_ELEMENTS   = 16,
-    APE_FORMAT_FLAG_CREATE_WAV_HEADER   = 32
-};
-
 typedef struct ape_stream_s ape_stream;
 
 typedef int (*ape_stream_read)(ape_stream *stream, void *ptr, int count);
@@ -61,7 +51,6 @@ APE_EXPORT ape_file * ape_file_ref(ape_file *ctx);
 APE_EXPORT ape_file * ape_file_unref(ape_file *ctx);
 APE_EXPORT int ape_file_get_version(ape_file *ctx);
 APE_EXPORT int ape_file_get_compression_level(ape_file *ctx);
-APE_EXPORT enum ape_format_flags_t ape_file_get_format_flags(ape_file *ctx);
 APE_EXPORT int ape_file_get_total_frames(ape_file *ctx);
 APE_EXPORT int ape_file_get_final_frame_blocks(ape_file *ctx);
 APE_EXPORT int ape_file_get_blocks_per_frame(ape_file *ctx);

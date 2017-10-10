@@ -35,6 +35,15 @@ APE_EXPORT int ape_get_version_patch(void)
     return LIBAPE_VERSION_PATCH;
 }
 
+enum ape_format_flags_t
+{
+    APE_FORMAT_FLAG_8_BIT               = 1,
+    APE_FORMAT_FLAG_CRC                 = 2,
+    APE_FORMAT_FLAG_HAS_PEAK_LEVEL      = 4,
+    APE_FORMAT_FLAG_24_BIT              = 8,
+    APE_FORMAT_FLAG_HAS_SEEK_ELEMENTS   = 16,
+    APE_FORMAT_FLAG_CREATE_WAV_HEADER   = 32
+};
 
 struct ape_file_s
 {
@@ -274,14 +283,6 @@ APE_EXPORT int ape_file_get_compression_level(ape_file *ctx)
         return -EINVAL;
 
     return ctx->compression_level;
-}
-
-APE_EXPORT enum ape_format_flags_t ape_file_get_format_flags(ape_file *ctx)
-{
-    if (!ctx)
-        return -EINVAL;
-
-    return ctx->format_flags;
 }
 
 APE_EXPORT int ape_file_get_total_frames(ape_file *ctx)
