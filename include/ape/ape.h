@@ -1,6 +1,10 @@
 #ifndef APE_H
 #define APE_H
 
+/**
+ * @file ape.h
+ */
+
 #include "ape_export.h"
 
 #define LIBAPE_VERSION_STRING   "0.1.0"
@@ -37,9 +41,43 @@ typedef struct ape_file_s ape_file;
 extern "C" {
 #endif
 
+/**
+ * @brief Gets library version as string.
+ * 
+ * String returned in "X.Y.Z" format, where X is major version number, Y is minor version number
+ * and Z is patch version number.
+ *
+ * @see ape_get_version_major()
+ * @see ape_get_version_minor()
+ * @see ape_get_version_patch()
+ */
 APE_EXPORT const char *  ape_get_version_string(void);
+
+/**
+ * @brief Gets library major version.
+ *
+ * @see ape_get_version_string()
+ * @see ape_get_version_minor()
+ * @see ape_get_version_patch()
+ */
 APE_EXPORT int ape_get_version_major(void);
+
+/**
+ * @brief Gets library minor version.
+ *
+ * @see ape_get_version_string()
+ * @see ape_get_version_major()
+ * @see ape_get_version_patch()
+ */
 APE_EXPORT int ape_get_version_minor(void);
+
+/**
+ * @brief Gets library patch version.
+ *
+ * @see ape_get_version_string()
+ * @see ape_get_version_major()
+ * @see ape_get_version_minor()
+ */
 APE_EXPORT int ape_get_version_patch(void);
 APE_EXPORT int ape_file_open(const char *filename, int is_readonly, ape_file **ctx);
 APE_EXPORT int ape_file_open_stream(ape_stream *stream, ape_file **ctx);
