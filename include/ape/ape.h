@@ -16,8 +16,8 @@
 
 typedef struct ape_stream_s ape_stream;
 
-typedef int (*ape_stream_read)(ape_stream *stream, void *ptr, int count);
-typedef int (*ape_stream_write)(ape_stream *stream, const void *ptr, int count);
+typedef int (*ape_stream_read)(ape_stream *stream, void *buffer, int size);
+typedef int (*ape_stream_write)(ape_stream *stream, const void *buffer, int size);
 typedef long (*ape_stream_tell)(ape_stream *stream);
 typedef long (*ape_stream_seek)(ape_stream *stream, long offset, int origin);
 

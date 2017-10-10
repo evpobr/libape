@@ -8,8 +8,8 @@
 #include <stdbool.h>
 #include <memory.h>
 
-static int ape_stream_stdio_read(ape_stream *stream, void *ptr, int count);
-static int ape_stream_stdio_write(ape_stream *stream, const void *ptr, int count);
+static int ape_stream_stdio_read(ape_stream *stream, void *buffer, int size);
+static int ape_stream_stdio_write(ape_stream *stream, const void *buffer, int size);
 static long ape_stream_stdio_tell(ape_stream *stream);
 static long ape_stream_stdio_seek(ape_stream *stream, long offset, int origin);
 
