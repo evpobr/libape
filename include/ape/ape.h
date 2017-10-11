@@ -15,56 +15,56 @@
  *
  * @see ape_get_version_string()
  */
-#define LIBAPE_VERSION_STRING   "0.1.0"
+#define LIBAPE_VERSION_STRING	"0.1.0"
 /**
  * @brief Defines library major version.
  *
  * @see ape_get_version_major()
  */
-#define LIBAPE_VERSION_MAYOR    0
+#define LIBAPE_VERSION_MAYOR	0
 /**
  * @brief Defines library minor version.
  *
  * @see ape_get_version_minor()
  */
-#define LIBAPE_VERSION_MINOR    1
+#define LIBAPE_VERSION_MINOR	1
 /**
  * @brief Defines library patch version.
  *
  * @see ape_get_version_patch()
  */
-#define LIBAPE_VERSION_PATCH    0
+#define LIBAPE_VERSION_PATCH	0
 
 /**
  * @brief Defines fast compression level.
  *
  * @see ape_file_get_compression_level()
  */
-#define APE_COMPRESSION_LEVEL_FAST          1000
+#define APE_COMPRESSION_LEVEL_FAST			1000
 /**
  * @brief Defines normal compression level.
  *
  * @see ape_file_get_compression_level()
  */
-#define APE_COMPRESSION_LEVEL_NORMAL        2000
+#define APE_COMPRESSION_LEVEL_NORMAL		2000
 /**
  * @brief Defines high compression level.
  *
  * @see ape_file_get_compression_level()
  */
-#define APE_COMPRESSION_LEVEL_HIGH          3000
+#define APE_COMPRESSION_LEVEL_HIGH			3000
 /**
  * @brief Defines extra high compression level.
  *
  * @see ape_file_get_compression_level()
  */
-#define APE_COMPRESSION_LEVEL_EXTRA_HIGH    4000
+#define APE_COMPRESSION_LEVEL_EXTRA_HIGH	4000
 /**
  * @brief Defines insane compression level.
  *
  * @see ape_file_get_compression_level()
  */
-#define APE_COMPRESSION_LEVEL_INSANE        5000
+#define APE_COMPRESSION_LEVEL_INSANE		5000
 
 /**
  *
@@ -127,34 +127,34 @@ typedef long (*ape_stream_seek)(ape_stream *stream, long offset, int origin);
  */
 struct ape_stream_s
 {
-    /**
-     * @brief Pointer to read function.
-     * @see ape_stream_read()
-     */
-    ape_stream_read read;
-    /**
-     * @brief Pointer to write function.
-     * @see ape_stream_write()
-     */
-    ape_stream_write write;
-    /**
-     * @brief Pointer to tell function.
-     * @see ape_stream_tell()
-     */
-    ape_stream_tell tell;
-    /**
-     * @brief Pointer to seek function.
-     * @see ape_stream_seek()
-     */
-    ape_stream_seek seek;
-    /**
-     * @brief Indicates that stream is read only, if set to @c 1.
-     */
-    int is_readonly;
-    /**
-     * @brief User associated data.
-     */
-    void *user_data;
+	/**
+	 * @brief Pointer to read function.
+	 * @see ape_stream_read()
+	 */
+	ape_stream_read read;
+	/**
+	 * @brief Pointer to write function.
+	 * @see ape_stream_write()
+	 */
+	ape_stream_write write;
+	/**
+	 * @brief Pointer to tell function.
+	 * @see ape_stream_tell()
+	 */
+	ape_stream_tell tell;
+	/**
+	 * @brief Pointer to seek function.
+	 * @see ape_stream_seek()
+	 */
+	ape_stream_seek seek;
+	/**
+	 * @brief Indicates that stream is read only, if set to @c 1.
+	 */
+	int is_readonly;
+	/**
+	 * @brief User associated data.
+	 */
+	void *user_data;
 };
 
 /**
