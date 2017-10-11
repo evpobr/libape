@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 
 ### Added
 - Add installation support to CMake (#4)
+- Online documentation (#5)
+
+### Removed
+- Doxygen documentation
 
 ## [0.1.0] - 2017-10-10
 
