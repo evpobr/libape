@@ -77,6 +77,9 @@ struct ape_file_s
     char *wav_header_data;
 };
 
+#pragma pack(push)
+#pragma pack(4)
+
 struct ape_file_descriptor_s
 {
     char id[4];
@@ -117,9 +120,6 @@ struct ape_header_v1_s
     uint32_t total_frames;
     uint32_t final_frame_blocks;
 };
-
-#pragma pack(push)
-#pragma pack(4)
 
 struct wave_header_s
 {
