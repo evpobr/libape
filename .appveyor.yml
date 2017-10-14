@@ -1,4 +1,4 @@
-version: 0.1-{build}
+version: build-{build}
 image: Visual Studio 2017
 configuration: Debug
 platform:
@@ -10,8 +10,7 @@ before_build:
   - if %platform%==Win32 set CMAKE_GENERATOR=Visual Studio 15 2017
   - if %platform%==x64 set CMAKE_GENERATOR=Visual Studio 15 2017 Win64
   - cmake -G"%CMAKE_GENERATOR%" ..
-build:
-  project: c:\projects\libape\CMakeBuild\ape.sln
-  verbosity: minimal
+build_script:
+  - cmake --build .
 test_script:
   - ctest -V -C "Debug"
