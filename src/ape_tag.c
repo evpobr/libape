@@ -1,9 +1,17 @@
 #include <ape/ape.h>
-#include "ape_tag.h"
 
+#ifdef HAVE_CONFIG_H
+#include "config.h"
+#endif
+
+#include "ape_tag.h"
 #include <errno.h>
+#ifdef HAVE_STDINT_H
 #include <stdint.h>
+#endif
+#ifdef HAVE_STDBOOL_H
 #include <stdbool.h>
+#endif
 #include <stdlib.h>
 #include <memory.h>
 #include <stdio.h>
