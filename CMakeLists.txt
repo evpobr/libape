@@ -10,6 +10,12 @@ set(CMAKE_C_STANDARD_REQUIRED TRUE)
 
 include(GenerateExportHeader)
 include(GNUInstallDirs)
+include(CheckIncludeFile)
+
+check_include_file(stdint.h HAVE_STDINT_H)
+check_include_file(stdbool.h HAVE_STDBOOL_H)
+
+configure_file(src/config.h.cmake src/config.h)
 
 set(libape_PUBLIC_HEADERS
 	${CMAKE_CURRENT_SOURCE_DIR}/include/ape/ape.h
@@ -23,11 +29,13 @@ target_include_directories(ape
     PUBLIC
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
 		$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>
+		$<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}/src>
 		$<INSTALL_INTERFACE:${CMAKE_INSTALL_FULL_INCLUDEDIR}>)
 set_target_properties(ape PROPERTIES
     DEFINE_SYMBOL APE_EXPORTS
     VERSION 0.1
     SOVERSION 0)
+target_compile_definitions(ape PRIVATE HAVE_CONFIG_H)
 if(WIN32 AND BUILD_SHARED_LIBS)
     target_sources(ape PRIVATE src/ape.rc)
 endif()
@@ -37,7 +45,7 @@ endif()
 
 generate_export_header(ape)
 
-target_sources(ape PUBLIC ${libape_PUBLIC_HEADERS})
+target_sources(ape PUBLIC ${libape_PUBLIC_HEADERS} ${CMAKE_CURRENT_BINARY_DIR}/src/config.h)
 set_target_properties(ape PROPERTIES
 	PUBLIC_HEADER "${libape_PUBLIC_HEADERS}")
 
