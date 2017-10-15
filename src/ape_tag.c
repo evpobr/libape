@@ -1,9 +1,14 @@
 #include <ape/ape.h>
+
+#include "config.h"
+
 #include "ape_tag.h"
 
 #include <errno.h>
 #include <stdint.h>
+#ifdef HAVE_STDBOOL_H
 #include <stdbool.h>
+#endif
 #include <stdlib.h>
 #include <memory.h>
 #include <stdio.h>
@@ -43,23 +48,27 @@ struct ape_tag_s
 
 int ape_tag_analyze_stream(ape_stream *stream, ape_tag **tag)
 {
+	long original_position = 0;
+	bool has_id3_tag = false;
+	struct id3_tag_s id3_tag = { 0 };
+	int bytes_read = 0;
+	struct ape_tag_footer_s ape_tag_footer = { 0 };
+	long offset;
+
 	if (!stream || !tag)
 		return -EINVAL;
 
-	long original_position = stream->tell(stream);
+	original_position = stream->tell(stream);
 	stream->seek(stream, -(long)sizeof(struct id3_tag_s), SEEK_END);
 
-	bool has_id3_tag = false;
-	struct id3_tag_s id3_tag = { 0 };
-	int bytes_read = stream->read(stream, &id3_tag, sizeof(struct id3_tag_s));
+	bytes_read = stream->read(stream, &id3_tag, sizeof(struct id3_tag_s));
 	if (bytes_read != sizeof(struct id3_tag_s))
 		return -EIO;
 
 	if (memcmp(&id3_tag.header, "TAG ", 4) == 0)
 		has_id3_tag = true;
 
-	struct ape_tag_footer_s ape_tag_footer = { 0 };
-	long offset = sizeof(struct ape_tag_footer_s);
+	offset = sizeof(struct ape_tag_footer_s);
 	if (has_id3_tag)
 		offset = sizeof(struct id3_tag_s);
 	stream->seek(stream, -offset, SEEK_END);
