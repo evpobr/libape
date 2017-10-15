@@ -150,6 +150,9 @@ static int ape_file_analyze(ape_file *ctx);
 APE_EXPORT int ape_file_open(const char *filename, int is_readonly, ape_file **ctx)
 {
 	FILE *fp = NULL;
+	ape_stream *stream = NULL;
+	ape_file *c = NULL;
+	int ret = -1;
 
 	if (!ctx)
 		return -EFAULT;
@@ -169,7 +172,7 @@ APE_EXPORT int ape_file_open(const char *filename, int is_readonly, ape_file **c
 		return -errno;
 	}
 
-	ape_stream *stream = calloc(1, sizeof(ape_stream));
+	stream = calloc(1, sizeof(ape_stream));
 	if (!stream)
 	{
 		fclose(fp);
@@ -183,7 +186,7 @@ APE_EXPORT int ape_file_open(const char *filename, int is_readonly, ape_file **c
 	stream->user_data = (void*)fp;
 	stream->is_readonly = is_readonly;
 
-	ape_file *c = ape_file_new();
+	c = ape_file_new();
 	if (!c)
 	{
 		free(stream);
@@ -194,7 +197,7 @@ APE_EXPORT int ape_file_open(const char *filename, int is_readonly, ape_file **c
 	c->stream = stream;
 	c->owns_stream = true;
 
-	int ret = ape_file_analyze(c);
+	ret = ape_file_analyze(c);
 	if (ret < 0)
 	{
 		ape_file_free(c);
@@ -208,6 +211,8 @@ APE_EXPORT int ape_file_open(const char *filename, int is_readonly, ape_file **c
 
 APE_EXPORT int ape_file_open_stream(ape_stream *stream, ape_file **ctx)
 {
+	ape_file *c = NULL;
+
 	if (!ctx)
 		return -EFAULT;
 	*ctx = NULL;
@@ -215,7 +220,7 @@ APE_EXPORT int ape_file_open_stream(ape_stream *stream, ape_file **ctx)
 	if (!stream || (!stream->read) || (!stream->write) || (!stream->tell) || (!stream->seek))
 		return -EINVAL;
 
-	ape_file *c = ape_file_new();
+	c = ape_file_new();
 	if (!c)
 		return -ENOMEM;
 
@@ -447,24 +452,31 @@ static ape_file *ape_file_new(void)
 
 static int ape_file_find_descriptor(ape_file *ctx, bool keep_position)
 {
-	int original_file_location = ctx->stream->tell(ctx->stream);
-	ctx->stream->seek(ctx->stream, 0, SEEK_SET);
-
+	int original_file_location = 0;
 	int junk_bytes = 0;
-
 	unsigned int bytes_read = 0;
 	uint8_t id3v2_header[10];
+	int scan_bytes = 0;
+	uint32_t goad_id = (' ' << 24) | ('C' << 16) | ('A' << 8) | ('M');
+	uint32_t real_id = 0;
+
+	original_file_location = ctx->stream->tell(ctx->stream);
+	ctx->stream->seek(ctx->stream, 0, SEEK_SET);
+
+	junk_bytes = 0;
+
+	bytes_read = 0;
 
 	ctx->stream->read(ctx->stream, &id3v2_header, sizeof(id3v2_header));
 	if (id3v2_header[0] == 'I' && id3v2_header[1] == 'D' && id3v2_header[2] == '3')
 	{
 		unsigned int sync_safe_length = 0;
+		bool has_tag_footer = false;
+
 		sync_safe_length = (id3v2_header[6] & 127) << 21;
 		sync_safe_length += (id3v2_header[7] & 127) << 14;
 		sync_safe_length += (id3v2_header[8] & 127) << 7;
 		sync_safe_length += (id3v2_header[9] & 127);
-
-		bool has_tag_footer = false;
 
 		if (id3v2_header[5] & 16)
 		{
@@ -495,14 +507,11 @@ static int ape_file_find_descriptor(ape_file *ctx, bool keep_position)
 	}
 	ctx->stream->seek(ctx->stream, junk_bytes, SEEK_SET);
 
-	uint32_t goad_id = (' ' << 24) | ('C' << 16) | ('A' << 8) | ('M');
-	uint32_t real_id = 0;
 	bytes_read = ctx->stream->read(ctx->stream, &real_id, sizeof(real_id));
 	if (bytes_read != sizeof(real_id))
 		return -EIO;
 
 	bytes_read = 1;
-	int scan_bytes = 0;
 	while ((goad_id != real_id) && (bytes_read == 1) && (scan_bytes < (1024 * 1024)))
 	{
 		uint8_t temp;
@@ -528,10 +537,12 @@ static int ape_file_analyze(ape_file *ctx)
 	int ret = 0;
 	char id[4];
 	int bytes_read;
+	long old_position = 0;
+	long size = 0;
 
-	long old_position = ctx->stream->tell(ctx->stream);
+	old_position = ctx->stream->tell(ctx->stream);
 	ctx->stream->seek(ctx->stream, 0, SEEK_END);
-	long size = ctx->stream->tell(ctx->stream);
+	size = ctx->stream->tell(ctx->stream);
 	ctx->stream->seek(ctx->stream, 0, SEEK_SET);
 
 	ctx->junk_header_bytes = ape_file_find_descriptor(ctx, true);
@@ -556,6 +567,8 @@ static int ape_file_analyze(ape_file *ctx)
 		{
 
 			struct ape_file_descriptor_s ape_descriptor = { 0 };
+			struct ape_header_v2_s header = { 0 };
+
 			bytes_read = ctx->stream->read(ctx->stream, &ape_descriptor, sizeof(struct ape_file_descriptor_s));
 			if (bytes_read != sizeof(struct ape_file_descriptor_s))
 			{
@@ -568,7 +581,6 @@ static int ape_file_analyze(ape_file *ctx)
 				ctx->stream->seek(ctx->stream, ape_descriptor.descriptor_bytes - sizeof(struct ape_file_descriptor_s), SEEK_CUR);
 			}
 
-			struct ape_header_v2_s header = { 0 };
 			bytes_read = ctx->stream->read(ctx->stream, &header, sizeof(struct ape_header_v2_s));
 			if (bytes_read != sizeof(struct ape_header_v2_s))
 			{

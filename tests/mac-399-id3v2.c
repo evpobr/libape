@@ -10,6 +10,7 @@
 
 int main(void)
 {
+	int ret = -1;
     char *test_name = "mac-399-id3v2.ape";
 
     ape_file *ctx;
@@ -20,15 +21,17 @@ int main(void)
     printf("ape_info_test: current directory is: %s\n", cwd);
     printf("ape_info_test: test file: '%s'... ", test_name);
 
-    int ret = ape_file_open(test_name, 1, &ctx);
+    ret = ape_file_open(test_name, 1, &ctx);
 
     if (ret >= 0)
     {
+		int value = 0;
+
         printf("opened\n");
 
         printf("\nape_info_test: file information:\n");
 
-        int value = ape_file_get_version(ctx);
+        value = ape_file_get_version(ctx);
         printf("ape_info_test: version = %d - ", value);
         if (value == 3990)
         {
