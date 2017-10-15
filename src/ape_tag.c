@@ -5,7 +5,9 @@
 #include "ape_tag.h"
 
 #include <errno.h>
+#ifdef HAVE_STDINT_H
 #include <stdint.h>
+#endif
 #ifdef HAVE_STDBOOL_H
 #include <stdbool.h>
 #endif

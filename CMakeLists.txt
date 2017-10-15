@@ -13,6 +13,7 @@ include(GNUInstallDirs)
 include(CheckIncludeFile)
 
 check_include_file(stdbool.h HAVE_STDBOOL_H)
+check_include_file(stdint.h HAVE_STDINT_H)
 
 configure_file(src/config.h.cmake src/config.h)
 
