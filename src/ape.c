@@ -1,11 +1,15 @@
 #include <ape/ape.h>
 
+#include "config.h"
+
 #include <stdint.h>
 #include <errno.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#ifdef HAVE_STDBOOL_H
 #include <stdbool.h>
+#endif
 #include <memory.h>
 
 static int ape_stream_stdio_read(ape_stream *stream, void *buffer, int size);
