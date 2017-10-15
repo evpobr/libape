@@ -149,11 +149,12 @@ static int ape_file_analyze(ape_file *ctx);
 
 APE_EXPORT int ape_file_open(const char *filename, int is_readonly, ape_file **ctx)
 {
+	FILE *fp = NULL;
+
 	if (!ctx)
 		return -EFAULT;
 	*ctx = NULL;
 
-	FILE *fp = NULL;
 	if (!is_readonly)
 	{
 		fp = fopen(filename, "rb+");
