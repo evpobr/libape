@@ -246,7 +246,7 @@ int main(void)
 
         value = ape_file_get_frame_blocks(ctx, 0);
         printf("ape_info_test: frame blocks of first frame = %d - ", value);
-        if (value = 73728)
+        if (value == 73728)
         {
             printf("ok.\n");
         }
